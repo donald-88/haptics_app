@@ -4,12 +4,14 @@ import 'package:avatar_glow/avatar_glow.dart';
 import 'package:flutter/material.dart';
 
 class Player extends StatefulWidget {
+  final String position;
   final Color color;
   final Color borderColor;
   double initLeft;
   double initTop;
   Player(
-      {required this.color,
+      {required this.position,
+      required this.color,
       required this.borderColor,
       required this.initLeft,
       required this.initTop});
@@ -23,16 +25,16 @@ class _PlayerState extends State<Player> {
   @override
   Widget build(BuildContext context) {
     return Positioned(
-      height: 50,
-      width: 50,
-      top: widget.initTop,
-      left: widget.initLeft,
+      top: widget.initTop - 33,
+      left: widget.initLeft - 33,
       child: GestureDetector(
         onPanUpdate: (details) {
-          setState(() {
-            widget.initLeft = max(0, widget.initLeft + details.delta.dx);
-            widget.initTop = max(0, widget.initTop + details.delta.dy);
-          });
+          if (tapped == true) {
+            setState(() {
+              widget.initLeft = max(0, widget.initLeft + details.delta.dx);
+              widget.initTop = max(0, widget.initTop + details.delta.dy);
+            });
+          }
         },
         onTap: () {
           setState(() {
@@ -59,6 +61,14 @@ class _PlayerState extends State<Player> {
                 decoration: BoxDecoration(
                     color: widget.borderColor,
                     borderRadius: const BorderRadius.all(Radius.circular(50))),
+                child: Center(
+                  child: DefaultTextStyle(
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 18,
+                      ),
+                      child: Text(widget.position)),
+                ),
               ),
             ),
           ),
