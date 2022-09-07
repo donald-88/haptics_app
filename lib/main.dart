@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:haptics_app/components/pitch.dart';
+import 'package:haptics_app/screens/pitch.dart';
 
 void main() {
   runApp(const HapticsApp());
