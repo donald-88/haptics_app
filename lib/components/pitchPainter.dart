@@ -7,8 +7,8 @@ class PitchPainter extends CustomPainter {
     double centerY = size.height / 2;
 
     Paint paint = Paint()
-      ..color = Colors.white
-      ..strokeWidth = 3
+      ..color = const Color.fromARGB(255, 109, 202, 179)
+      ..strokeWidth = 4
       ..style = PaintingStyle.stroke;
 
     Paint paintFill = Paint()
@@ -18,16 +18,6 @@ class PitchPainter extends CustomPainter {
     Paint zones = Paint()
       ..color = const Color.fromARGB(255, 107, 165, 57)
       ..style = PaintingStyle.fill;
-
-    for (double zone = 0; zone <= size.width.toDouble();) {
-      if (zone % 100 == 0) {
-        canvas.drawRect(
-            Rect.fromPoints(
-                Offset(0, zone + 100), Offset(size.width, zone + 50)),
-            zones);
-      }
-      ++zone;
-    }
 
     canvas.drawLine(
         Offset(20, centerY), Offset(size.width - 20, centerY), paint);

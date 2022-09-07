@@ -23,8 +23,10 @@ class _PlayerState extends State<Player> {
   @override
   Widget build(BuildContext context) {
     return Positioned(
-      top: widget.initTop - 32,
-      left: widget.initLeft - 32,
+      height: 50,
+      width: 50,
+      top: widget.initTop,
+      left: widget.initLeft,
       child: GestureDetector(
         onPanUpdate: (details) {
           setState(() {
@@ -43,6 +45,7 @@ class _PlayerState extends State<Player> {
           glowColor: widget.borderColor,
           duration: const Duration(milliseconds: 1000),
           repeatPauseDuration: const Duration(milliseconds: 100),
+          curve: Curves.easeInOut,
           child: Container(
             height: 50,
             width: 50,
