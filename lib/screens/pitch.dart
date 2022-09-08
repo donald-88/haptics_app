@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:haptics_app/components/linkPainter.dart';
 import 'package:haptics_app/components/pitchPainter.dart';
 import 'package:haptics_app/components/player.dart';
 
@@ -149,7 +150,10 @@ class _PitchSideState extends State<PitchSide> {
               color: const Color.fromARGB(255, 62, 194, 152),
               height: height,
               width: width,
-              child: CustomPaint(painter: PitchPainter()),
+              child: CustomPaint(
+                painter: PitchPainter(),
+                foregroundPainter: LinkPainter(),
+              ),
             ),
             gkA,
             cbA1,
