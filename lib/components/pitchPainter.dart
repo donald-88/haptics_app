@@ -7,7 +7,7 @@ class PitchPainter extends CustomPainter {
     double centerY = size.height / 2;
 
     Paint paint = Paint()
-      ..color = const Color.fromARGB(255, 109, 202, 179)
+      ..color = Colors.white
       ..strokeWidth = 4
       ..style = PaintingStyle.stroke;
 
