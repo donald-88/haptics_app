@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:avatar_glow/avatar_glow.dart';
 import 'package:flutter/material.dart';
+import 'package:location/location.dart';
 
 class Player extends StatefulWidget {
   final String position;
@@ -30,8 +31,47 @@ class _PlayerState extends State<Player> {
   }
 
   bool tapped = false;
+
+  Location location = Location();
+
+  late bool _serviceEnabled;
+  PermissionStatus? _permissionGranted;
+  LocationData? _locationData;
+
+  getLocation() async {
+    _serviceEnabled = await location.serviceEnabled();
+    if (!_serviceEnabled) {
+      _serviceEnabled = await location.requestService();
+      if (!_serviceEnabled) {
+        return;
+      }
+    }
+
+    _permissionGranted = await location.hasPermission();
+    if (_permissionGranted == PermissionStatus.denied) {
+      _permissionGranted = await location.requestPermission();
+      if (_permissionGranted != PermissionStatus.granted) {
+        return;
+      }
+    }
+
+    _locationData = await location.getLocation();
+    location.onLocationChanged.listen((LocationData currentLocation) {
+      print(currentLocation);
+      _locationData = currentLocation;
+      setState(() {});
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    getLocation();
+  }
+
   @override
   Widget build(BuildContext context) {
+    print(_locationData);
     return Positioned(
       top: widget.initTop - 33,
       left: widget.initLeft - 33,

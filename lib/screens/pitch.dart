@@ -11,16 +11,10 @@ class PitchSide extends StatefulWidget {
 }
 
 class _PitchSideState extends State<PitchSide> {
-
-  
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
-
-    print(width);
-    print(height);
-
     Player gkA = Player(
       position: "GK",
       color: Colors.red,
@@ -149,10 +143,10 @@ class _PitchSideState extends State<PitchSide> {
         child: Stack(
           children: [
             Container(
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                   image: DecorationImage(
                       fit: BoxFit.cover,
-                      image: AssetImage('assets/pitch.png'))),
+                      image: AssetImage('assets/pitch.jpg'))),
               height: height,
               width: width,
               child: CustomPaint(
