@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:haptics_app/components/linkPainter.dart';
 import 'package:haptics_app/components/pitchPainter.dart';
 import 'package:haptics_app/components/player.dart';
+import 'package:web_socket_channel/io.dart';
 
 class PitchSide extends StatefulWidget {
   const PitchSide({Key? key}) : super(key: key);
@@ -11,6 +12,8 @@ class PitchSide extends StatefulWidget {
 }
 
 class _PitchSideState extends State<PitchSide> {
+  final channel =
+      IOWebSocketChannel.connect(Uri.parse('ws://l92.168.2.168:8080'));
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
@@ -102,41 +105,6 @@ class _PitchSideState extends State<PitchSide> {
       initLeft: (width * 0.5) - 25,
       initTop: height * 0.75,
     );
-
-    // Player gkB = Player(
-    //   color: Colors.red,
-    //   borderColor: Colors.redAccent,
-    //   initLeft: (width * 0.5) - 25,
-    //   initTop: height - 60,
-    // );
-
-    // Player cbB1 = Player(
-    //   color: Colors.red,
-    //   borderColor: Colors.redAccent,
-    //   initLeft: (width * 0.5) + 50,
-    //   initTop: (height * 0.75),
-    // );
-
-    // Player cbB2 = Player(
-    //   color: Colors.red,
-    //   borderColor: Colors.redAccent,
-    //   initLeft: (width * 0.5) - 100,
-    //   initTop: (height * 0.75),
-    // );
-
-    // Player lbB = Player(
-    //   color: Colors.red,
-    //   borderColor: Colors.redAccent,
-    //   initLeft: width - 100,
-    //   initTop: (height * 0.65) + 50,
-    // );
-
-    // Player rbB = Player(
-    //   color: Colors.red,
-    //   borderColor: Colors.redAccent,
-    //   initLeft: 50,
-    //   initTop: (height * 0.65) + 50,
-    // );
 
     return SafeArea(
       child: Center(
