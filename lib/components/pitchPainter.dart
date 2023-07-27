@@ -15,9 +15,6 @@ class PitchPainter extends CustomPainter {
       ..color = Colors.white
       ..style = PaintingStyle.fill;
 
-    Paint zones = Paint()
-      ..color = const Color.fromARGB(255, 107, 165, 57)
-      ..style = PaintingStyle.fill;
 
     canvas.drawLine(
         Offset(20, centerY), Offset(size.width - 20, centerY), paint);

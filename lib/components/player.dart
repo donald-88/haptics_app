@@ -2,20 +2,30 @@ import 'dart:math';
 
 import 'package:avatar_glow/avatar_glow.dart';
 import 'package:flutter/material.dart';
-import 'package:location/location.dart';
 
+// ignore: must_be_immutable
 class Player extends StatefulWidget {
+   ValueChanged<bool> left;
+  ValueChanged<bool> right;
+  ValueChanged<bool> top;
+  ValueChanged<bool> bottom;
+  ValueChanged<bool> tapped;
   final String position;
   final Color color;
   final Color borderColor;
   double initLeft;
   double initTop;
   Player(
-      {required this.position,
+      {super.key, required this.position,
       required this.color,
       required this.borderColor,
       required this.initLeft,
-      required this.initTop});
+      required this.initTop,
+      required this.left,
+      required this.right,
+      required this.top,
+      required this.bottom,
+      required this.tapped});
 
   @override
   State<Player> createState() => _PlayerState();
@@ -32,46 +42,34 @@ class _PlayerState extends State<Player> {
 
   bool tapped = false;
 
-  Location location = Location();
+ 
 
-  late bool _serviceEnabled;
-  PermissionStatus? _permissionGranted;
-  LocationData? _locationData;
+void updateLeft(){
+  widget.left(true);
+}
+void updateRight(){
+  widget.right(true);
+}
 
-  getLocation() async {
-    _serviceEnabled = await location.serviceEnabled();
-    if (!_serviceEnabled) {
-      _serviceEnabled = await location.requestService();
-      if (!_serviceEnabled) {
-        return;
-      }
-    }
+void updateTop(){
+  widget.top(true);
+}
 
-    _permissionGranted = await location.hasPermission();
-    if (_permissionGranted == PermissionStatus.denied) {
-      _permissionGranted = await location.requestPermission();
-      if (_permissionGranted != PermissionStatus.granted) {
-        return;
-      }
-    }
+void updateBottom(){
+  widget.bottom(true);
+}
 
-    _locationData = await location.getLocation();
-    location.onLocationChanged.listen((LocationData currentLocation) {
-      print(currentLocation);
-      _locationData = currentLocation;
-      setState(() {});
-    });
-  }
+void updateTapped(bool newValue){
+  widget.tapped(newValue);
+}
 
   @override
   void initState() {
     super.initState();
-    getLocation();
   }
 
   @override
   Widget build(BuildContext context) {
-    print(_locationData);
     return Positioned(
       top: widget.initTop - 33,
       left: widget.initLeft - 33,
@@ -82,6 +80,27 @@ class _PlayerState extends State<Player> {
               widget.initLeft = max(0, widget.initLeft + details.delta.dx);
               widget.initTop = max(0, widget.initTop + details.delta.dy);
             });
+
+            updateTapped(true);
+
+            if(details.delta.dx > 0.5){
+              updateRight();
+            }
+
+            if(details.delta.dx < -0.5){
+              updateLeft();
+            }
+
+            if(details.delta.dy > 0.5){
+              updateBottom();
+            }
+            if(details.delta.dy < -0.5){
+              updateTop();
+            }
+          }
+
+          else{
+            updateTapped(false);
           }
         },
         onTap: () {

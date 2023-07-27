@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:haptics_app/screens/calibrate.dart';
+import 'package:haptics_app/screens/pitch.dart';
 
 void main() {
   runApp(const HapticsApp());
@@ -10,7 +10,7 @@ class HapticsApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const MaterialApp(
-      home: Calibrate(),
+      home: PitchSide(),
     );
   }
 }

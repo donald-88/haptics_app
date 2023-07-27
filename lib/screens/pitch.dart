@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:haptics_app/components/linkPainter.dart';
 import 'package:haptics_app/components/pitchPainter.dart';
 import 'package:haptics_app/components/player.dart';
+import 'package:web_socket_channel/io.dart';
 
 class PitchSide extends StatefulWidget {
   const PitchSide({Key? key}) : super(key: key);
@@ -11,6 +12,63 @@ class PitchSide extends StatefulWidget {
 }
 
 class _PitchSideState extends State<PitchSide> {
+
+  final channel = IOWebSocketChannel.connect(Uri.parse('ws://192.168.2.82:8080'));
+
+ bool tapped = false;
+
+  @override
+  void initState() {
+    super.initState();
+    streamListener();
+  }
+
+  streamListener() {
+    channel.stream.listen((message) {
+      print(message);
+    });
+  }
+
+  void updateLeft(bool newValue){
+    if(tapped){
+      sendWebSocketMessage("PIN27_ON");
+    sendWebSocketMessage("PIN25_OFF");
+    }else{
+      sendWebSocketMessage("PIN27_OFF");
+    }
+  }
+
+  void updateRight(bool newValue){
+   if(tapped){
+      sendWebSocketMessage("PIN25_ON");
+    sendWebSocketMessage("PIN27_OFF");
+    }else{
+      sendWebSocketMessage("PIN25_OFF");
+   }
+  }
+
+  void updateTop(bool newValue){
+    if(tapped){
+      sendWebSocketMessage("PIN23_ON");
+    sendWebSocketMessage("PIN21_OFF");
+    }else{
+      sendWebSocketMessage("PIN23_OFF");
+    }
+  }
+
+  void updateBottom(bool newValue){
+    if(tapped){
+    sendWebSocketMessage("PIN21_ON");
+    sendWebSocketMessage("PIN23_OFF");
+    }else{
+      sendWebSocketMessage("PIN21_OFF");
+    }
+  }
+
+  void updateTapped(bool newValue){
+    tapped = newValue;
+  }
+
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
@@ -21,6 +79,11 @@ class _PitchSideState extends State<PitchSide> {
       borderColor: Colors.redAccent,
       initLeft: (width * 0.5) - 25,
       initTop: 10,
+      left: updateLeft,
+      right: updateRight,
+      top: updateTop,
+      bottom: updateBottom,
+      tapped: updateTapped,
     );
 
     Player cbA1 = Player(
@@ -29,6 +92,11 @@ class _PitchSideState extends State<PitchSide> {
       borderColor: Colors.redAccent,
       initLeft: (width * 0.5) + 50,
       initTop: (height * 0.167),
+      left: updateLeft,
+      right: updateRight,
+      top: updateTop,
+      bottom: updateBottom,
+      tapped: updateTapped
     );
 
     Player cbA2 = Player(
@@ -37,6 +105,11 @@ class _PitchSideState extends State<PitchSide> {
       borderColor: Colors.redAccent,
       initLeft: (width * 0.5) - 100,
       initTop: (height * 0.167),
+      left: updateLeft,
+      right: updateRight,
+      top: updateTop,
+      bottom: updateBottom,
+      tapped: updateTapped
     );
 
     Player lbA = Player(
@@ -45,6 +118,11 @@ class _PitchSideState extends State<PitchSide> {
       borderColor: Colors.redAccent,
       initLeft: width - 100,
       initTop: height * 0.25,
+      left: updateLeft,
+      right: updateRight,
+      top: updateTop,
+      bottom: updateBottom,
+      tapped: updateTapped
     );
 
     Player rbA = Player(
@@ -53,6 +131,11 @@ class _PitchSideState extends State<PitchSide> {
       borderColor: Colors.redAccent,
       initLeft: 50,
       initTop: height * 0.25,
+      left: updateLeft,
+      right: updateRight,
+      top: updateTop,
+      bottom: updateBottom,
+      tapped: updateTapped
     );
 
     Player cdmA = Player(
@@ -61,6 +144,11 @@ class _PitchSideState extends State<PitchSide> {
       borderColor: Colors.redAccent,
       initLeft: (width * 0.5) - 25,
       initTop: height / 3,
+      left: updateLeft,
+      right: updateRight,
+      top: updateTop,
+      bottom: updateBottom,
+      tapped: updateTapped
     );
 
     Player cmA1 = Player(
@@ -69,6 +157,11 @@ class _PitchSideState extends State<PitchSide> {
       borderColor: Colors.redAccent,
       initLeft: (width * 0.5) + 50,
       initTop: height * 0.5,
+      left: updateLeft,
+      right: updateRight,
+      top: updateTop,
+      bottom: updateBottom,
+      tapped: updateTapped
     );
 
     Player cmA2 = Player(
@@ -77,6 +170,11 @@ class _PitchSideState extends State<PitchSide> {
       borderColor: Colors.redAccent,
       initLeft: (width * 0.5) - 100,
       initTop: height * 0.5,
+      left: updateLeft,
+      right: updateRight,
+      top: updateTop,
+      bottom: updateBottom,
+      tapped: updateTapped
     );
 
     Player rwA = Player(
@@ -85,6 +183,11 @@ class _PitchSideState extends State<PitchSide> {
       borderColor: Colors.redAccent,
       initLeft: 50,
       initTop: height * 0.65,
+      left: updateLeft,
+      right: updateRight,
+      top: updateTop,
+      bottom: updateBottom,
+      tapped: updateTapped
     );
 
     Player lwA = Player(
@@ -93,6 +196,11 @@ class _PitchSideState extends State<PitchSide> {
       borderColor: Colors.redAccent,
       initLeft: width - 100,
       initTop: height * 0.65,
+      left: updateLeft,
+      right: updateRight,
+      top: updateTop,
+      bottom: updateBottom,
+      tapped: updateTapped
     );
 
     Player cfA = Player(
@@ -101,42 +209,12 @@ class _PitchSideState extends State<PitchSide> {
       borderColor: Colors.redAccent,
       initLeft: (width * 0.5) - 25,
       initTop: height * 0.75,
+      left: updateLeft,
+      right: updateRight,
+      top: updateTop,
+      bottom: updateBottom,
+      tapped: updateTapped
     );
-
-    // Player gkB = Player(
-    //   color: Colors.red,
-    //   borderColor: Colors.redAccent,
-    //   initLeft: (width * 0.5) - 25,
-    //   initTop: height - 60,
-    // );
-
-    // Player cbB1 = Player(
-    //   color: Colors.red,
-    //   borderColor: Colors.redAccent,
-    //   initLeft: (width * 0.5) + 50,
-    //   initTop: (height * 0.75),
-    // );
-
-    // Player cbB2 = Player(
-    //   color: Colors.red,
-    //   borderColor: Colors.redAccent,
-    //   initLeft: (width * 0.5) - 100,
-    //   initTop: (height * 0.75),
-    // );
-
-    // Player lbB = Player(
-    //   color: Colors.red,
-    //   borderColor: Colors.redAccent,
-    //   initLeft: width - 100,
-    //   initTop: (height * 0.65) + 50,
-    // );
-
-    // Player rbB = Player(
-    //   color: Colors.red,
-    //   borderColor: Colors.redAccent,
-    //   initLeft: 50,
-    //   initTop: (height * 0.65) + 50,
-    // );
 
     return SafeArea(
       child: Center(
@@ -165,14 +243,12 @@ class _PitchSideState extends State<PitchSide> {
             lwA,
             rwA,
             cfA,
-            // cbB1,
-            // cbB2,
-            // rbB,
-            // lbB,
-            // gkB
           ],
         ),
       ),
     );
+  }
+   void sendWebSocketMessage(String message) {
+    channel.sink.add(message);
   }
 }
