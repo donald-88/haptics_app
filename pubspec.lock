@@ -91,19 +91,6 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
-  flutter_web_plugins:
-    dependency: transitive
-    description: flutter
-    source: sdk
-    version: "0.0.0"
-  http_parser:
-    dependency: transitive
-    description:
-      name: http_parser
-      sha256: db3060f22889f3d9d55f6a217565486737037eec3609f7f3eca4d0c67ee0d8a0
-      url: "https://pub.dev"
-    source: hosted
-    version: "4.0.1"
   js:
     dependency: transitive
     description:
@@ -120,30 +107,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.0.0"
-  location:
-    dependency: "direct main"
-    description:
-      name: location
-      sha256: "9051959f6f2ccadd887b28b66e9cbbcc25b6838e37cf9e894c421ccc0ebf80b5"
-      url: "https://pub.dev"
-    source: hosted
-    version: "4.4.0"
-  location_platform_interface:
-    dependency: transitive
-    description:
-      name: location_platform_interface
-      sha256: "62eeaf1658e92e4459b727f55a3c328eccbac8ba043fa6d262ac5286ad48384c"
-      url: "https://pub.dev"
-    source: hosted
-    version: "2.3.0"
-  location_web:
-    dependency: transitive
-    description:
-      name: location_web
-      sha256: "6c08c408a040534c0269c4ff9fe17eebb5a36dea16512fbaf116b9c8bc21545b"
-      url: "https://pub.dev"
-    source: hosted
-    version: "3.1.1"
   matcher:
     dependency: transitive
     description:
@@ -176,14 +139,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.8.3"
-  plugin_platform_interface:
-    dependency: transitive
-    description:
-      name: plugin_platform_interface
-      sha256: "075f927ebbab4262ace8d0b283929ac5410c0ac4e7fc123c76429564facfb757"
-      url: "https://pub.dev"
-    source: hosted
-    version: "2.1.2"
   sky_engine:
     dependency: transitive
     description: flutter
@@ -263,4 +218,3 @@ packages:
     version: "2.4.0"
 sdks:
   dart: ">=3.0.0-0 <4.0.0"
-  flutter: ">=1.20.0"

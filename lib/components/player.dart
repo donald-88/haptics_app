@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 
 // ignore: must_be_immutable
 class Player extends StatefulWidget {
-   ValueChanged<bool> left;
+  ValueChanged<bool> left;
   ValueChanged<bool> right;
   ValueChanged<bool> top;
   ValueChanged<bool> bottom;
@@ -16,7 +16,8 @@ class Player extends StatefulWidget {
   double initLeft;
   double initTop;
   Player(
-      {super.key, required this.position,
+      {super.key,
+      required this.position,
       required this.color,
       required this.borderColor,
       required this.initLeft,
@@ -42,26 +43,25 @@ class _PlayerState extends State<Player> {
 
   bool tapped = false;
 
- 
+  void updateLeft() {
+    widget.left(true);
+  }
 
-void updateLeft(){
-  widget.left(true);
-}
-void updateRight(){
-  widget.right(true);
-}
+  void updateRight() {
+    widget.right(true);
+  }
 
-void updateTop(){
-  widget.top(true);
-}
+  void updateTop() {
+    widget.top(true);
+  }
 
-void updateBottom(){
-  widget.bottom(true);
-}
+  void updateBottom() {
+    widget.bottom(true);
+  }
 
-void updateTapped(bool newValue){
-  widget.tapped(newValue);
-}
+  void updateTapped(bool newValue) {
+    widget.tapped(newValue);
+  }
 
   @override
   void initState() {
@@ -83,23 +83,22 @@ void updateTapped(bool newValue){
 
             updateTapped(true);
 
-            if(details.delta.dx > 0.5){
+            if (details.delta.dx > 0.5) {
               updateRight();
             }
 
-            if(details.delta.dx < -0.5){
+            if (details.delta.dx < -0.5) {
               updateLeft();
             }
 
-            if(details.delta.dy > 0.5){
-              updateBottom();
-            }
-            if(details.delta.dy < -0.5){
+            if (details.delta.dy > 0.5) {
               updateTop();
             }
-          }
 
-          else{
+            if (details.delta.dy < -0.5) {
+              updateBottom();
+            }
+          } else {
             updateTapped(false);
           }
         },

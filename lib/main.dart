@@ -14,3 +14,4 @@ class HapticsApp extends StatelessWidget {
     );
   }
 }
+ 

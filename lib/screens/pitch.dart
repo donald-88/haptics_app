@@ -12,10 +12,10 @@ class PitchSide extends StatefulWidget {
 }
 
 class _PitchSideState extends State<PitchSide> {
+  final channel =
+      IOWebSocketChannel.connect(Uri.parse('ws://192.168.2.55:8080'));
 
-  final channel = IOWebSocketChannel.connect(Uri.parse('ws://192.168.2.82:8080'));
-
- bool tapped = false;
+  bool tapped = false;
 
   @override
   void initState() {
@@ -29,43 +29,43 @@ class _PitchSideState extends State<PitchSide> {
     });
   }
 
-  void updateLeft(bool newValue){
-    if(tapped){
-      sendWebSocketMessage("PIN27_ON");
-    sendWebSocketMessage("PIN25_OFF");
-    }else{
-      sendWebSocketMessage("PIN27_OFF");
-    }
-  }
-
-  void updateRight(bool newValue){
-   if(tapped){
+  void updateLeft(bool newValue) {
+    if (tapped) {
       sendWebSocketMessage("PIN25_ON");
-    sendWebSocketMessage("PIN27_OFF");
-    }else{
+      sendWebSocketMessage("PIN21_OFF");
+    } else {
       sendWebSocketMessage("PIN25_OFF");
-   }
-  }
-
-  void updateTop(bool newValue){
-    if(tapped){
-      sendWebSocketMessage("PIN23_ON");
-    sendWebSocketMessage("PIN21_OFF");
-    }else{
-      sendWebSocketMessage("PIN23_OFF");
     }
   }
 
-  void updateBottom(bool newValue){
-    if(tapped){
-    sendWebSocketMessage("PIN21_ON");
-    sendWebSocketMessage("PIN23_OFF");
-    }else{
+  void updateRight(bool newValue) {
+    if (tapped) {
+      sendWebSocketMessage("PIN21_ON");
+      sendWebSocketMessage("PIN25_OFF");
+    } else {
       sendWebSocketMessage("PIN21_OFF");
     }
   }
 
-  void updateTapped(bool newValue){
+  void updateTop(bool newValue) {
+    if (tapped) {
+      sendWebSocketMessage("PIN27_ON");
+      sendWebSocketMessage("PIN23_OFF");
+    } else {
+      sendWebSocketMessage("PIN27_OFF");
+    }
+  }
+
+  void updateBottom(bool newValue) {
+    if (tapped) {
+      sendWebSocketMessage("PIN23_ON");
+      sendWebSocketMessage("PIN27_OFF");
+    } else {
+      sendWebSocketMessage("PIN23_OFF");
+    }
+  }
+
+  void updateTapped(bool newValue) {
     tapped = newValue;
   }
 
@@ -87,134 +87,124 @@ class _PitchSideState extends State<PitchSide> {
     );
 
     Player cbA1 = Player(
-      position: "CB",
-      color: Colors.red,
-      borderColor: Colors.redAccent,
-      initLeft: (width * 0.5) + 50,
-      initTop: (height * 0.167),
-      left: updateLeft,
-      right: updateRight,
-      top: updateTop,
-      bottom: updateBottom,
-      tapped: updateTapped
-    );
+        position: "CB",
+        color: Colors.red,
+        borderColor: Colors.redAccent,
+        initLeft: (width * 0.5) + 50,
+        initTop: (height * 0.167),
+        left: updateLeft,
+        right: updateRight,
+        top: updateTop,
+        bottom: updateBottom,
+        tapped: updateTapped);
 
     Player cbA2 = Player(
-      position: "CB",
-      color: Colors.red,
-      borderColor: Colors.redAccent,
-      initLeft: (width * 0.5) - 100,
-      initTop: (height * 0.167),
-      left: updateLeft,
-      right: updateRight,
-      top: updateTop,
-      bottom: updateBottom,
-      tapped: updateTapped
-    );
+        position: "CB",
+        color: Colors.red,
+        borderColor: Colors.redAccent,
+        initLeft: (width * 0.5) - 100,
+        initTop: (height * 0.167),
+        left: updateLeft,
+        right: updateRight,
+        top: updateTop,
+        bottom: updateBottom,
+        tapped: updateTapped);
 
     Player lbA = Player(
-      position: "LB",
-      color: Colors.red,
-      borderColor: Colors.redAccent,
-      initLeft: width - 100,
-      initTop: height * 0.25,
-      left: updateLeft,
-      right: updateRight,
-      top: updateTop,
-      bottom: updateBottom,
-      tapped: updateTapped
-    );
+        position: "LB",
+        color: Colors.red,
+        borderColor: Colors.redAccent,
+        initLeft: width - 100,
+        initTop: height * 0.25,
+        left: updateLeft,
+        right: updateRight,
+        top: updateTop,
+        bottom: updateBottom,
+        tapped: updateTapped);
 
     Player rbA = Player(
-      position: "RB",
-      color: Colors.red,
-      borderColor: Colors.redAccent,
-      initLeft: 50,
-      initTop: height * 0.25,
-      left: updateLeft,
-      right: updateRight,
-      top: updateTop,
-      bottom: updateBottom,
-      tapped: updateTapped
-    );
+        position: "RB",
+        color: Colors.red,
+        borderColor: Colors.redAccent,
+        initLeft: 50,
+        initTop: height * 0.25,
+        left: updateLeft,
+        right: updateRight,
+        top: updateTop,
+        bottom: updateBottom,
+        tapped: updateTapped);
 
     Player cdmA = Player(
-      position: "CDM",
-      color: Colors.red,
-      borderColor: Colors.redAccent,
-      initLeft: (width * 0.5) - 25,
-      initTop: height / 3,
-      left: updateLeft,
-      right: updateRight,
-      top: updateTop,
-      bottom: updateBottom,
-      tapped: updateTapped
-    );
+        position: "CDM",
+        color: Colors.red,
+        borderColor: Colors.redAccent,
+        initLeft: (width * 0.5) - 25,
+        initTop: height / 3,
+        left: updateLeft,
+        right: updateRight,
+        top: updateTop,
+        bottom: updateBottom,
+        tapped: updateTapped);
 
     Player cmA1 = Player(
-      position: "CM",
-      color: Colors.red,
-      borderColor: Colors.redAccent,
-      initLeft: (width * 0.5) + 50,
-      initTop: height * 0.5,
-      left: updateLeft,
-      right: updateRight,
-      top: updateTop,
-      bottom: updateBottom,
-      tapped: updateTapped
-    );
+        position: "CM",
+        color: Colors.red,
+        borderColor: Colors.redAccent,
+        initLeft: (width * 0.5) + 50,
+        initTop: height * 0.5,
+        left: updateLeft,
+        right: updateRight,
+        top: updateTop,
+        bottom: updateBottom,
+        tapped: updateTapped);
 
     Player cmA2 = Player(
-      position: "CM",
-      color: Colors.red,
-      borderColor: Colors.redAccent,
-      initLeft: (width * 0.5) - 100,
-      initTop: height * 0.5,
-      left: updateLeft,
-      right: updateRight,
-      top: updateTop,
-      bottom: updateBottom,
-      tapped: updateTapped
-    );
+        position: "CM",
+        color: Colors.red,
+        borderColor: Colors.redAccent,
+        initLeft: (width * 0.5) - 100,
+        initTop: height * 0.5,
+        left: updateLeft,
+        right: updateRight,
+        top: updateTop,
+        bottom: updateBottom,
+        tapped: updateTapped);
 
     Player rwA = Player(
-      position: "RW",
-      color: Colors.red,
-      borderColor: Colors.redAccent,
-      initLeft: 50,
-      initTop: height * 0.65,
-      left: updateLeft,
-      right: updateRight,
-      top: updateTop,
-      bottom: updateBottom,
-      tapped: updateTapped
-    );
+        position: "RW",
+        color: Colors.red,
+        borderColor: Colors.redAccent,
+        initLeft: 50,
+        initTop: height * 0.65,
+        left: updateLeft,
+        right: updateRight,
+        top: updateTop,
+        bottom: updateBottom,
+        tapped: updateTapped);
 
     Player lwA = Player(
-      position: "LW",
-      color: Colors.red,
-      borderColor: Colors.redAccent,
-      initLeft: width - 100,
-      initTop: height * 0.65,
-      left: updateLeft,
-      right: updateRight,
-      top: updateTop,
-      bottom: updateBottom,
-      tapped: updateTapped
-    );
+        position: "LW",
+        color: Colors.red,
+        borderColor: Colors.redAccent,
+        initLeft: width - 100,
+        initTop: height * 0.65,
+        left: updateLeft,
+        right: updateRight,
+        top: updateTop,
+        bottom: updateBottom,
+        tapped: updateTapped);
 
     Player cfA = Player(
-      position: "CF",
-      color: Colors.red,
-      borderColor: Colors.redAccent,
-      initLeft: (width * 0.5) - 25,
-      initTop: height * 0.75,
-      left: updateLeft,
-      right: updateRight,
-      top: updateTop,
-      bottom: updateBottom,
-      tapped: updateTapped
-    );
+        position: "CF",
+        color: Colors.red,
+        borderColor: Colors.redAccent,
+        initLeft: (width * 0.5) - 25,
+        initTop: height * 0.75,
+        left: updateLeft,
+        right: updateRight,
+        top: updateTop,
+        bottom: updateBottom,
+        tapped: updateTapped);
 
     return SafeArea(
       child: Center(
@@ -248,7 +238,8 @@ class _PitchSideState extends State<PitchSide> {
       ),
     );
   }
-   void sendWebSocketMessage(String message) {
+
+  void sendWebSocketMessage(String message) {
     channel.sink.add(message);
   }
 }
