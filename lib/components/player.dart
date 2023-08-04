@@ -5,10 +5,10 @@ import 'package:flutter/material.dart';
 
 // ignore: must_be_immutable
 class Player extends StatefulWidget {
-  ValueChanged<bool> left;
-  ValueChanged<bool> right;
-  ValueChanged<bool> top;
-  ValueChanged<bool> bottom;
+  VoidCallback left;
+  VoidCallback right;
+  VoidCallback top;
+  VoidCallback bottom;
   ValueChanged<bool> tapped;
   final String position;
   final Color color;
@@ -42,25 +42,22 @@ class _PlayerState extends State<Player> {
   }
 
   bool tapped = false;
+  int tapCount = 0;
 
   void updateLeft() {
-    widget.left(true);
+    widget.left();
   }
 
   void updateRight() {
-    widget.right(true);
+    widget.right();
   }
 
   void updateTop() {
-    widget.top(true);
+    widget.top();
   }
 
   void updateBottom() {
-    widget.bottom(true);
-  }
-
-  void updateTapped(bool newValue) {
-    widget.tapped(newValue);
+    widget.bottom();
   }
 
   @override
@@ -81,7 +78,7 @@ class _PlayerState extends State<Player> {
               widget.initTop = max(0, widget.initTop + details.delta.dy);
             });
 
-            updateTapped(true);
+            widget.tapped(true);
 
             if (details.delta.dx > 0.5) {
               updateRight();
@@ -99,7 +96,7 @@ class _PlayerState extends State<Player> {
               updateBottom();
             }
           } else {
-            updateTapped(false);
+            widget.tapped(false);
           }
         },
         onTap: () {

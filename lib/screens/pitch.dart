@@ -16,6 +16,10 @@ class _PitchSideState extends State<PitchSide> {
       IOWebSocketChannel.connect(Uri.parse('ws://192.168.2.55:8080'));
 
   bool tapped = false;
+  bool backVib = false;
+  bool frontVib = false;
+  bool rhsVib = false;
+  bool lhsVib = false;
 
   @override
   void initState() {
@@ -29,7 +33,7 @@ class _PitchSideState extends State<PitchSide> {
     });
   }
 
-  void updateLeft(bool newValue) {
+  void updateLeft() {
     if (tapped) {
       sendWebSocketMessage("PIN25_ON");
       sendWebSocketMessage("PIN21_OFF");
@@ -38,7 +42,7 @@ class _PitchSideState extends State<PitchSide> {
     }
   }
 
-  void updateRight(bool newValue) {
+  void updateRight() {
     if (tapped) {
       sendWebSocketMessage("PIN21_ON");
       sendWebSocketMessage("PIN25_OFF");
@@ -47,7 +51,7 @@ class _PitchSideState extends State<PitchSide> {
     }
   }
 
-  void updateTop(bool newValue) {
+  void updateTop() {
     if (tapped) {
       sendWebSocketMessage("PIN27_ON");
       sendWebSocketMessage("PIN23_OFF");
@@ -56,7 +60,7 @@ class _PitchSideState extends State<PitchSide> {
     }
   }
 
-  void updateBottom(bool newValue) {
+  void updateBottom() {
     if (tapped) {
       sendWebSocketMessage("PIN23_ON");
       sendWebSocketMessage("PIN27_OFF");
