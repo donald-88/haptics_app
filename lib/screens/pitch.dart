@@ -12,14 +12,24 @@ class PitchSide extends StatefulWidget {
 }
 
 class _PitchSideState extends State<PitchSide> {
-  final channel =
-      IOWebSocketChannel.connect(Uri.parse('ws://192.168.2.55:8080'));
-
+  final channel = IOWebSocketChannel.connect(Uri.parse('ws://192.168.2.18:8080'));
+  
   bool tapped = false;
+  
   bool backVib = false;
+  
   bool frontVib = false;
+  
   bool rhsVib = false;
+  
   bool lhsVib = false;
+  
+  double distance1 = 0.0;   //for storing distance
+  
+  String ReceivedData='';   //for esp32
+
+  double distanceAnchor1=0.0;
+  double distanceAnchor2=0.0;
 
   @override
   void initState() {
@@ -29,8 +39,41 @@ class _PitchSideState extends State<PitchSide> {
 
   streamListener() {
     channel.stream.listen((message) {
-      print(message);
+      setState(() {
+        checkAndExtractAnchorDistance(message);
+      });
+      
     });
+  }
+  void checkAndExtractAnchorDistance(String data){
+
+    if (data.startsWith('ANCHOR')){
+
+      //splitting message into anchor and distance
+      final parts = data.split(":");
+
+      if(parts.length==2){
+        final anchor = parts[0];
+        final distance= double.tryParse(parts[1]);
+
+        if (anchor=="ANCHOR132" && distance !=null){
+
+          distanceAnchor1=distance;
+          
+        }
+        if (anchor=="ANCHOR6019" && distance !=null){
+
+          distanceAnchor2=distance;
+          
+        }
+        if(distance != null){
+          distance1=distance;
+          ReceivedData = 'Received: Anchor $anchor, Distance: $distance1';
+          print(ReceivedData);
+        }
+
+      }
+    }
   }
 
   void updateLeft() {
@@ -64,14 +107,18 @@ class _PitchSideState extends State<PitchSide> {
     if (tapped) {
       sendWebSocketMessage("PIN23_ON");
       sendWebSocketMessage("PIN27_OFF");
-    } else {
+    } 
+    else {
       sendWebSocketMessage("PIN23_OFF");
     }
   }
 
-  void updateTapped(bool newValue) {
-    tapped = newValue;
-  }
+   void updateTapped(bool startVibration) {
+
+    tapped = startVibration;
+
+    print(tapped);
+}
 
   @override
   Widget build(BuildContext context) {
@@ -202,8 +249,8 @@ class _PitchSideState extends State<PitchSide> {
         position: "CF",
         color: Colors.red,
         borderColor: Colors.redAccent,
-        initLeft: (width * 0.5) - 25,
-        initTop: height * 0.75,
+        initLeft: (width * distanceAnchor1) - 25,
+        initTop: height * distanceAnchor2,
         left: updateLeft,
         right: updateRight,
         top: updateTop,

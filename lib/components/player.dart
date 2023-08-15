@@ -42,7 +42,7 @@ class _PlayerState extends State<Player> {
   }
 
   bool tapped = false;
-  int tapCount = 0;
+ 
 
   void updateLeft() {
     widget.left();
@@ -103,6 +103,7 @@ class _PlayerState extends State<Player> {
           _getPositions();
           setState(() {
             tapped = !tapped;
+            print(tapped);
           });
         },
         child: AvatarGlow(
