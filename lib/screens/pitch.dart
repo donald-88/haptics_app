@@ -1,3 +1,6 @@
+import 'dart:ffi';
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:haptics_app/components/linkPainter.dart';
 import 'package:haptics_app/components/pitchPainter.dart';
@@ -12,24 +15,28 @@ class PitchSide extends StatefulWidget {
 }
 
 class _PitchSideState extends State<PitchSide> {
-  final channel = IOWebSocketChannel.connect(Uri.parse('ws://192.168.2.18:8080'));
-  
-  bool tapped = false;
-  
-  bool backVib = false;
-  
-  bool frontVib = false;
-  
-  bool rhsVib = false;
-  
-  bool lhsVib = false;
-  
-  double distance1 = 0.0;   //for storing distance
-  
-  String ReceivedData='';   //for esp32
+  final channel =
+      IOWebSocketChannel.connect(Uri.parse('ws://192.168.2.18:8080'));
 
-  double distanceAnchor1=0.0;
-  double distanceAnchor2=0.0;
+  bool tapped = false;
+
+  bool backVib = false;
+
+  bool frontVib = false;
+
+  bool rhsVib = false;
+
+  bool lhsVib = false;
+
+  double distance1 = 0.0; //for storing distance
+
+  String ReceivedData = ''; //for esp32
+
+  double distanceAnchor1 = 0.0;
+  double distanceAnchor2 = 0.0;
+
+  double x = 0;
+  double y = 0;
 
   @override
   void initState() {
@@ -42,38 +49,33 @@ class _PitchSideState extends State<PitchSide> {
       setState(() {
         checkAndExtractAnchorDistance(message);
       });
-      
     });
   }
-  void checkAndExtractAnchorDistance(String data){
 
-    if (data.startsWith('ANCHOR')){
-
+  void checkAndExtractAnchorDistance(String data) {
+    if (data.startsWith('ANCHOR')) {
       //splitting message into anchor and distance
       final parts = data.split(":");
 
-      if(parts.length==2){
+      if (parts.length == 2) {
         final anchor = parts[0];
-        final distance= double.tryParse(parts[1]);
+        final distance = double.tryParse(parts[1]);
 
-        if (anchor=="ANCHOR132" && distance !=null){
-
-          distanceAnchor1=distance;
-          
+        if (anchor == "ANCHOR132" && distance != null) {
+          distanceAnchor1 = distance;
         }
-        if (anchor=="ANCHOR6019" && distance !=null){
-
-          distanceAnchor2=distance;
-          
+        if (anchor == "ANCHOR6019" && distance != null) {
+          distanceAnchor2 = distance;
         }
-        if(distance != null){
-          distance1=distance;
+        if (distance != null) {
+          distance1 = distance;
           ReceivedData = 'Received: Anchor $anchor, Distance: $distance1';
           print(ReceivedData);
         }
-
       }
     }
+
+    tag_pos(distanceAnchor1, distanceAnchor2, 2.00);
   }
 
   void updateLeft() {
@@ -107,18 +109,22 @@ class _PitchSideState extends State<PitchSide> {
     if (tapped) {
       sendWebSocketMessage("PIN23_ON");
       sendWebSocketMessage("PIN27_OFF");
-    } 
-    else {
+    } else {
       sendWebSocketMessage("PIN23_OFF");
     }
   }
 
-   void updateTapped(bool startVibration) {
-
+  void updateTapped(bool startVibration) {
     tapped = startVibration;
 
     print(tapped);
-}
+  }
+
+  void tag_pos(a, b, c) {
+    double cosA = ((b * b) + (c * c) - (a * a)) / (2 * b * c);
+      x = b * cosA;
+      y = b * sqrt(1 - pow(cosA, 2));
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -249,8 +255,8 @@ class _PitchSideState extends State<PitchSide> {
         position: "CF",
         color: Colors.red,
         borderColor: Colors.redAccent,
-        initLeft: (width * distanceAnchor1) - 25,
-        initTop: height * distanceAnchor2,
+        initLeft: (width * (x * 0.94)) - 25,
+        initTop: height * (y * 0.94),
         left: updateLeft,
         right: updateRight,
         top: updateTop,
