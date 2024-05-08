@@ -1,9 +1,9 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:haptics_app/components/linkPainter.dart';
-import 'package:haptics_app/components/pitchPainter.dart';
-import 'package:haptics_app/components/player.dart';
+import 'package:haptics_app/widgets/linkPainter.dart';
+import 'package:haptics_app/widgets/pitchPainter.dart';
+import 'package:haptics_app/widgets/player.dart';
 import 'package:web_socket_channel/io.dart';
 
 class PitchSide extends StatefulWidget {
