@@ -21,14 +21,19 @@ class Calibrate extends StatelessWidget {
                     children: [
                       Text(
                         "Calibrate Your Pitch",
-                        style: TextStyle(fontWeight: FontWeight.w900, fontSize: 35),
+                        style: TextStyle(
+                            fontWeight: FontWeight.w900, fontSize: 35),
                       ),
                       SizedBox(height: 30),
                       Align(
                         alignment: Alignment.bottomCenter,
                         child: Text(
                           "Add your pitch dimensions and the caribate all the coordinates",
-                          style: TextStyle(fontWeight: FontWeight.w400, fontSize: 16,),textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontWeight: FontWeight.w400,
+                            fontSize: 16,
+                          ),
+                          textAlign: TextAlign.center,
                         ),
                       ),
                       SizedBox(
@@ -104,11 +109,12 @@ class Calibrate extends StatelessWidget {
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(15))),
                       onPressed: () {
-  Navigator.pushReplacement(
-    context,
-    MaterialPageRoute(builder: (context) => const PitchSide()),
-  );
-},
+                        Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const PitchSide()),
+                        );
+                      },
                       child: const Center(
                           child: Text(
                         'Calibrate',

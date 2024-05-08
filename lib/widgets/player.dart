@@ -1,5 +1,4 @@
 import 'dart:math';
-
 import 'package:avatar_glow/avatar_glow.dart';
 import 'package:flutter/material.dart';
 
@@ -11,15 +10,11 @@ class Player extends StatefulWidget {
   VoidCallback bottom;
   ValueChanged<bool> tapped;
   final String position;
-  final Color color;
-  final Color borderColor;
   double initLeft;
   double initTop;
   Player(
       {super.key,
       required this.position,
-      required this.color,
-      required this.borderColor,
       required this.initLeft,
       required this.initTop,
       required this.left,
@@ -42,7 +37,6 @@ class _PlayerState extends State<Player> {
   }
 
   bool tapped = false;
- 
 
   void updateLeft() {
     widget.left();
@@ -103,15 +97,12 @@ class _PlayerState extends State<Player> {
           _getPositions();
           setState(() {
             tapped = !tapped;
-            print(tapped);
           });
         },
         child: AvatarGlow(
           animate: tapped,
-          endRadius: 60,
-          glowColor: widget.borderColor,
+          glowColor: Colors.redAccent,
           duration: const Duration(milliseconds: 1000),
-          repeatPauseDuration: const Duration(milliseconds: 100),
           curve: Curves.easeInOut,
           child: Container(
             key: _keyPos,
@@ -125,15 +116,15 @@ class _PlayerState extends State<Player> {
                         blurRadius: 3 * i,
                         blurStyle: tapped ? BlurStyle.normal : BlurStyle.inner)
                 ],
-                color: widget.color,
+                color: Colors.red,
                 borderRadius: const BorderRadius.all(Radius.circular(50))),
             child: Center(
               child: Container(
                 height: 44,
                 width: 44,
-                decoration: BoxDecoration(
-                    color: widget.borderColor,
-                    borderRadius: const BorderRadius.all(Radius.circular(50))),
+                decoration: const BoxDecoration(
+                    color: Colors.red,
+                    borderRadius: BorderRadius.all(Radius.circular(50))),
                 child: Center(
                   child: DefaultTextStyle(
                       style: const TextStyle(

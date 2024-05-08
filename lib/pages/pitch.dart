@@ -1,10 +1,9 @@
 import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:haptics_app/widgets/linkPainter.dart';
 import 'package:haptics_app/widgets/pitchPainter.dart';
 import 'package:haptics_app/widgets/player.dart';
-import 'package:web_socket_channel/io.dart';
+import 'package:web_socket_channel/web_socket_channel.dart';
 
 class PitchSide extends StatefulWidget {
   const PitchSide({Key? key}) : super(key: key);
@@ -14,42 +13,23 @@ class PitchSide extends StatefulWidget {
 }
 
 class _PitchSideState extends State<PitchSide> {
-  final channel =
-      IOWebSocketChannel.connect(Uri.parse('ws://192.168.2.18:8080'));
+  final channel = WebSocketChannel.connect(Uri.parse('ws://192.168.1.81:8080'));
 
   bool tapped = false;
-
   bool backVib = false;
-
   bool frontVib = false;
-
   bool rhsVib = false;
-
   bool lhsVib = false;
 
   double distance1 = 0.0; //for storing distance
 
-  String ReceivedData = ''; //for esp32
+  String receivedData = ''; //for esp32
 
   double distanceAnchor1 = 0.0;
   double distanceAnchor2 = 0.0;
 
   double x = 0;
   double y = 0;
-
-  @override
-  void initState() {
-    super.initState();
-    streamListener();
-  }
-
-  streamListener() {
-    channel.stream.listen((message) {
-      setState(() {
-        checkAndExtractAnchorDistance(message);
-      });
-    });
-  }
 
   void checkAndExtractAnchorDistance(String data) {
     if (data.startsWith('ANCHOR')) {
@@ -68,13 +48,12 @@ class _PitchSideState extends State<PitchSide> {
         }
         if (distance != null) {
           distance1 = distance;
-          ReceivedData = 'Received: Anchor $anchor, Distance: $distance1';
-          print(ReceivedData);
+          receivedData = 'Received: Anchor $anchor, Distance: $distance1';
         }
       }
     }
 
-    tag_pos(distanceAnchor1, distanceAnchor2, 2.00);
+    tagPos(distanceAnchor1, distanceAnchor2, 2.00);
   }
 
   void updateLeft() {
@@ -115,153 +94,18 @@ class _PitchSideState extends State<PitchSide> {
 
   void updateTapped(bool startVibration) {
     tapped = startVibration;
-
-    print(tapped);
   }
 
-  void tag_pos(a, b, c) {
+  void tagPos(a, b, c) {
     double cosA = ((b * b) + (c * c) - (a * a)) / (2 * b * c);
-      x = b * cosA;
-      y = b * sqrt(1 - pow(cosA, 2));
+    x = b * cosA;
+    y = b * sqrt(1 - pow(cosA, 2));
   }
 
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
-    Player gkA = Player(
-      position: "GK",
-      color: Colors.red,
-      borderColor: Colors.redAccent,
-      initLeft: (width * 0.5) - 25,
-      initTop: 10,
-      left: updateLeft,
-      right: updateRight,
-      top: updateTop,
-      bottom: updateBottom,
-      tapped: updateTapped,
-    );
-
-    Player cbA1 = Player(
-        position: "CB",
-        color: Colors.red,
-        borderColor: Colors.redAccent,
-        initLeft: (width * 0.5) + 50,
-        initTop: (height * 0.167),
-        left: updateLeft,
-        right: updateRight,
-        top: updateTop,
-        bottom: updateBottom,
-        tapped: updateTapped);
-
-    Player cbA2 = Player(
-        position: "CB",
-        color: Colors.red,
-        borderColor: Colors.redAccent,
-        initLeft: (width * 0.5) - 100,
-        initTop: (height * 0.167),
-        left: updateLeft,
-        right: updateRight,
-        top: updateTop,
-        bottom: updateBottom,
-        tapped: updateTapped);
-
-    Player lbA = Player(
-        position: "LB",
-        color: Colors.red,
-        borderColor: Colors.redAccent,
-        initLeft: width - 100,
-        initTop: height * 0.25,
-        left: updateLeft,
-        right: updateRight,
-        top: updateTop,
-        bottom: updateBottom,
-        tapped: updateTapped);
-
-    Player rbA = Player(
-        position: "RB",
-        color: Colors.red,
-        borderColor: Colors.redAccent,
-        initLeft: 50,
-        initTop: height * 0.25,
-        left: updateLeft,
-        right: updateRight,
-        top: updateTop,
-        bottom: updateBottom,
-        tapped: updateTapped);
-
-    Player cdmA = Player(
-        position: "CDM",
-        color: Colors.red,
-        borderColor: Colors.redAccent,
-        initLeft: (width * 0.5) - 25,
-        initTop: height / 3,
-        left: updateLeft,
-        right: updateRight,
-        top: updateTop,
-        bottom: updateBottom,
-        tapped: updateTapped);
-
-    Player cmA1 = Player(
-        position: "CM",
-        color: Colors.red,
-        borderColor: Colors.redAccent,
-        initLeft: (width * 0.5) + 50,
-        initTop: height * 0.5,
-        left: updateLeft,
-        right: updateRight,
-        top: updateTop,
-        bottom: updateBottom,
-        tapped: updateTapped);
-
-    Player cmA2 = Player(
-        position: "CM",
-        color: Colors.red,
-        borderColor: Colors.redAccent,
-        initLeft: (width * 0.5) - 100,
-        initTop: height * 0.5,
-        left: updateLeft,
-        right: updateRight,
-        top: updateTop,
-        bottom: updateBottom,
-        tapped: updateTapped);
-
-    Player rwA = Player(
-        position: "RW",
-        color: Colors.red,
-        borderColor: Colors.redAccent,
-        initLeft: 50,
-        initTop: height * 0.65,
-        left: updateLeft,
-        right: updateRight,
-        top: updateTop,
-        bottom: updateBottom,
-        tapped: updateTapped);
-
-    Player lwA = Player(
-        position: "LW",
-        color: Colors.red,
-        borderColor: Colors.redAccent,
-        initLeft: width - 100,
-        initTop: height * 0.65,
-        left: updateLeft,
-        right: updateRight,
-        top: updateTop,
-        bottom: updateBottom,
-        tapped: updateTapped);
-
-    Player cfA = Player(
-        position: "CF",
-        color: Colors.red,
-        borderColor: Colors.redAccent,
-        initLeft: (width * (x * 0.94)) - 25,
-        initTop: height * (y * 0.94),
-        left: updateLeft,
-        right: updateRight,
-        top: updateTop,
-        bottom: updateBottom,
-        tapped: updateTapped);
-
     return SafeArea(
       child: Center(
         child: Stack(
@@ -278,17 +122,64 @@ class _PitchSideState extends State<PitchSide> {
                 foregroundPainter: LinkPainter(),
               ),
             ),
-            gkA,
-            cbA1,
-            cbA2,
-            lbA,
-            rbA,
-            cdmA,
-            cmA1,
-            cmA2,
-            lwA,
-            rwA,
-            cfA,
+            StreamBuilder(
+                stream: channel.stream,
+                builder: (context, snapshot) {
+                  //if loading, show loading widget
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const Center(
+                        child: AlertDialog(
+                      contentPadding: EdgeInsets.all(32),
+                      content: Row(
+                        children: [
+                          CircularProgressIndicator(),
+                          SizedBox(width: 32),
+                          Text(
+                            'Waiting for response.',
+                            style: TextStyle(fontSize: 16),
+                          )
+                        ],
+                      ),
+                    ));
+                  }
+
+                  //if there's an error, show error widget
+                  if (snapshot.hasError) {
+                    return Center(
+                        child: AlertDialog(
+                      title: const Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text('Error'),
+                        ],
+                      ),
+                      contentPadding: const EdgeInsets.all(32),
+                      content: Text(snapshot.error.toString()),
+                    ));
+                  }
+
+                  //if there's no data, show no player
+                  if (!snapshot.hasData) {
+                    return const Center(
+                        child: AlertDialog(
+                      contentPadding: EdgeInsets.all(32),
+                      content: Text('No data to show'),
+                    ));
+                  }
+
+                  //if there's data display the data
+                  // checkAndExtractAnchorDistance(snapshot.data.toString());
+                  print(snapshot.data);
+                  return Player(
+                      position: 'CF',
+                      initLeft: (width * (x * 0.94)) + 400,
+                      initTop: height * (y * 0.94) + 900,
+                      left: updateLeft,
+                      right: updateRight,
+                      top: updateTop,
+                      bottom: updateBottom,
+                      tapped: updateTapped);
+                }),
           ],
         ),
       ),
