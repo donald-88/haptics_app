@@ -9,8 +9,12 @@ class HapticsApp extends StatelessWidget {
   const HapticsApp({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      home: PitchSide(),
+    return MaterialApp(
+      theme: ThemeData(
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.green),
+        useMaterial3: true,
+      ),
+      home: const PitchSide(),
     );
   }
 }
