@@ -62,8 +62,8 @@ class _PlayerState extends State<Player> {
   @override
   Widget build(BuildContext context) {
     return Positioned(
-      top: widget.initTop - 33,
-      left: widget.initLeft - 33,
+      top: widget.initTop,
+      left: widget.initLeft,
       child: GestureDetector(
         onPanUpdate: (details) {
           if (tapped == true) {
