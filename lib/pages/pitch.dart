@@ -13,7 +13,8 @@ class PitchSide extends StatefulWidget {
 }
 
 class _PitchSideState extends State<PitchSide> {
-  final channel = WebSocketChannel.connect(Uri.parse('ws://192.168.1.81:8080'));
+  final channel = WebSocketChannel.connect(Uri.parse('ws://192.168.1.66:8080'));
+  
 
   bool tapped = false;
   bool backVib = false;
@@ -145,49 +146,42 @@ class _PitchSideState extends State<PitchSide> {
                 ),
               ),
               StreamBuilder(
-                  stream: channel.stream,
-                  builder: (context, snapshot) {
-                    //if loading, show loading widget
-                    if (snapshot.connectionState == ConnectionState.waiting) {
-                      return const Center(
-                          child: AlertDialog(
-                        contentPadding: EdgeInsets.all(32),
-                        content: Row(
-                          children: [
-                            CircularProgressIndicator(),
-                            SizedBox(width: 32),
-                            Text(
-                              'Waiting for response.',
-                              style: TextStyle(fontSize: 16),
-                            )
-                          ],
-                        ),
-                      ));
-                    }
+                    stream: channel.stream,
+                    builder: (context, snapshot) {
+                      //if loading, show loading widget
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return const Center(
+                            child: AlertDialog(
+                          contentPadding: EdgeInsets.all(32),
+                          content: Row(
+                            children: [
+                              CircularProgressIndicator(),
+                              SizedBox(width: 32),
+                              Text(
+                                'Waiting for response.',
+                                style: TextStyle(fontSize: 16),
+                              )
+                            ],
+                          ),
+                        ));
+                      }
 
-                    //if there's an error, show error widget
-                    if (snapshot.hasError) {
-                      return Center(
-                          child: AlertDialog(
-                        title: const Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text('Error'),
-                          ],
-                        ),
-                        contentPadding: const EdgeInsets.all(32),
-                        content: Text(snapshot.error.toString()),
-                      ));
-                    }
+                      //if there's an error, show error widget
+                      if (snapshot.hasError) {
+                        return Center(
+                            child: AlertDialog(
+                          title: const Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text('Error'),
+                            ],
+                          ),
+                          contentPadding: const EdgeInsets.all(32),
+                          content: Text(snapshot.error.toString()),
+                        ));
+                      }
 
-                    //if there's no data, show no player
-                    if (!snapshot.hasData) {
-                      return const Center(
-                          child: AlertDialog(
-                        contentPadding: EdgeInsets.all(32),
-                        content: Text('No data to show'),
-                      ));
-                    }
+                   
 
                     //if there's data display the data
                     checkAndExtractAnchorDistance(snapshot.data);
@@ -209,6 +203,7 @@ class _PitchSideState extends State<PitchSide> {
   }
 
   void sendWebSocketMessage(String message) {
-    channel.sink.add(message);
-  }
+  print('Sending message: $message'); // Add this line
+  channel.sink.add(message);
+}
 }

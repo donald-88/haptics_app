@@ -12,12 +12,55 @@ class TestField extends StatefulWidget {
 }
 
 class _TestFieldState extends State<TestField> {
-  final channel = WebSocketChannel.connect(Uri.parse('ws://192.168.1.81:8080'));
+  final channel = WebSocketChannel.connect(Uri.parse('ws://192.168.1.66:8080'));
+
+  final int screenOffset = 175;
 
   bool tapped = false;
 
   void updateTapped(bool startVibration) {
     tapped = startVibration;
+  }
+
+  void sendWebSocketMessage(String message) {
+    channel.sink.add(message);
+    print('Sending message: $message'); // Add this line
+  }
+
+  void updateLeft() {
+    if (tapped) {
+      sendWebSocketMessage("PIN25_ON");
+      sendWebSocketMessage("PIN21_OFF");
+    } else {
+      sendWebSocketMessage("PIN25_OFF");
+    }
+  }
+
+  void updateRight() {
+    if (tapped) {
+      sendWebSocketMessage("PIN21_ON");
+      sendWebSocketMessage("PIN25_OFF");
+    } else {
+      sendWebSocketMessage("PIN21_OFF");
+    }
+  }
+
+  void updateTop() {
+    if (tapped) {
+      sendWebSocketMessage("PIN27_ON");
+      sendWebSocketMessage("PIN23_OFF");
+    } else {
+      sendWebSocketMessage("PIN27_OFF");
+    }
+  }
+
+  void updateBottom() {
+    if (tapped) {
+      sendWebSocketMessage("PIN23_ON");
+      sendWebSocketMessage("PIN27_OFF");
+    } else {
+      sendWebSocketMessage("PIN23_OFF");
+    }
   }
 
   Point trilaterate(
@@ -63,7 +106,7 @@ class _TestFieldState extends State<TestField> {
     Point(0, 4, 0), // Anchor 4
   ];
 
-  final distances = [5.0, 5.0, 5.0, 5.0];
+  final distances = [2.0, 2.0, 2.0, 2.0];
 
   final initialGuess = Point(2, 2, 2);
 
@@ -123,12 +166,12 @@ class _TestFieldState extends State<TestField> {
                           trilaterate(anchors, distances, initialGuess);
                       return Player(
                           position: 'TP',
-                          initLeft: position.x,
-                          initTop: position.y,
-                          left: () {},
-                          right: () {},
-                          top: () {},
-                          bottom: () {},
+                          initLeft: position.x * screenOffset,
+                          initTop: position.y * screenOffset,
+                          left: updateLeft,
+                          right: updateRight,
+                          top: updateTop,
+                          bottom: updateBottom,
                           tapped: updateTapped);
                     })
               ],
